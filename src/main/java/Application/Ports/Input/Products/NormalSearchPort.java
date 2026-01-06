@@ -1,11 +1,11 @@
 package Application.Ports.Input.Products;
 
-import Application.DTO.Products.DTOReturnProduct;
-import Application.DTO.Products.DTOSearchProduct;
+import Application.DTOs.Products.DTOReturnNormalProduct;
+import Application.DTOs.Products.DTOSearchProduct;
 
 import java.util.List;
 
 public interface NormalSearchPort {
 
-    List<DTOReturnProduct> searchProducts(DTOSearchProduct dtoSearchProduct);
+    List<DTOReturnNormalProduct> searchProducts(DTOSearchProduct dtoSearchProduct);
 }

@@ -2,5 +2,7 @@ package Domain.Entities.Products;
 
 import Domain.ValueObjects.ValidText;
 
-public record Review(ValidText message, Rating rating, Model model, ValidText reviewerName) {
+import java.util.UUID;
+
+public record Review(ValidText message, Rating rating, UUID id, Integer idxModel, ValidText reviewerName) {
 }

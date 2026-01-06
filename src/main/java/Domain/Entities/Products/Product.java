@@ -1,20 +1,21 @@
 package Domain.Entities.Products;
 
-import Domain.ValueObjects.Quantity;
-import Domain.ValueObjects.ValidText;
+import Domain.ValueObjects.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Product {
 
-    private final Long id;
+    private final UUID id;
     private ValidText name;
     private ValidText description;
     private Category category;
     private List<Model> models;
     private List<Review> reviews;
-    private Rating rating;
     private Quantity totalQuantity;
     private AvailabilityStatus availability;
     private Integer timesViewed;
@@ -22,6 +23,7 @@ public class Product {
     private Integer timesViewedInMonth;
     private Integer timesPurchasedInMonth;
     private LocalDateTime createdAt;
+    private Status status;
 
     private Quantity quantityTotal(List<Model> models) {
         Integer totalQuantity = 0;
@@ -50,7 +52,7 @@ public class Product {
     private Integer totalTimesViewedInMonth(List<Model> models) {
         Integer totalTimesViewedInMonth = 0;
         for (Model model : models) {
-            totalTimesViewedInMonth += model.getTimesViewedInMonth();
+            totalTimesViewedInMonth += model.getTimesViewedInMonth().getTimes();
         }
         return totalTimesViewedInMonth;
     }
@@ -58,7 +60,7 @@ public class Product {
     private Integer totalTimesPurchasedInMonth(List<Model> models) {
         Integer totalTimesPurchasedInMonth = 0;
         for (Model model : models) {
-            totalTimesPurchasedInMonth += model.getTimesPurchasedInMonth();
+            totalTimesPurchasedInMonth += model.getTimesPurchasedInMonth().getTimes();
         }
         return totalTimesPurchasedInMonth;
     }
@@ -67,95 +69,74 @@ public class Product {
         return this.totalQuantity.quantity() > 0 ? AvailabilityStatus.IN_STOCK : AvailabilityStatus.OUT_OF_STOCK;
     }
 
-
-//    private List<String> photosConfig(List<String> photos, Integer idx) {
-//        if (idx != null) {
-//            return this.models.get(idx).getPhotos();
-//        } else {
-//            if (!photos.isEmpty()) return photos;
-//            if (!(this.models.stream().anyMatch(model -> model.getTimesPurchased() > 0))) {
-//                return this.models.getFirst().getPhotos();
-//            }
-//            return this.models.stream()
-//                    .max(Comparator.comparingInt(Model::getTimesPurchased))
-//                    .map(Model::getPhotos)
-//                    .orElseThrow(InvalidDataException::new);
-//        }
-//    }
-//
-//    private Price priceConfig(Price price, Integer idx) {
-//
-//    }
-
-    public Product(Long id, ValidText name, ValidText description, List<Model> models, List<Review> reviews, Category category, LocalDateTime createdAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.models = models;
-        this.reviews = reviews;
-        this.timesViewed = totalTimesViewed(models);
-        this.timesPurchased = totalTimesPurchased(models);
-        this.totalQuantity = quantityTotal(models);
-        this.timesViewedInMonth = totalTimesViewedInMonth(models);
-        this.timesPurchasedInMonth = totalTimesPurchasedInMonth(models);
-        this.availability = checkAvailability();
-        this.createdAt = createdAt;
-        this.category = category;
+    public void DeleteProduct(){
+        this.status = Status.OFF;
     }
 
-    public void setName(ValidText name) {
-        this.name = name;
+    public void UpdateProduct(Integer idxModel, ValidText name, ValidText modelName, Price price, Quantity quantity, Photos photos, BigDecimal discountPercentage){
+        if (!name.text().trim().isEmpty() || name != null) this.name = name;
+        if (idxModel != null && idxModel > 0 && idxModel <= this.models.size())
+            this.models.get(idxModel - 1).UpdateModel(modelName, price, quantity, photos, discountPercentage);
     }
 
-    public void setDescription(ValidText description) {
-        this.description = description;
+    public void newModel(ValidText name, Price price, Quantity quantity, Photos photos, BigDecimal DiscountPercentage){
+        Model newModel = new Model(
+                name,
+                price,
+                quantity,
+                photos,
+                DiscountPercentage);
+        this.models.add(newModel);
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void DeleteModel(Integer idxModel){
+        if (idxModel != null && idxModel >= 0 && idxModel <= this.models.size()) this.models.remove(idxModel - 1);
     }
 
-    public void setModels(List<Model> models) {
-        this.models = models;
+    public void AddReview(Review review) {
+        this.reviews.add(review);
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public ValidText getName() {
-        return name;
-    }
+public Product(ValidText name, ValidText description, List<Model> models, Category category) {
+    this.id = UUID.randomUUID();
+    this.name = name;
+    this.description = description;
+    this.models = models;
+    this.reviews = new ArrayList<>();
+    this.timesViewed = totalTimesViewed(models);
+    this.timesPurchased = totalTimesPurchased(models);
+    this.totalQuantity = quantityTotal(models);
+    this.timesViewedInMonth = totalTimesViewedInMonth(models);
+    this.timesPurchasedInMonth = totalTimesPurchasedInMonth(models);
+    this.availability = checkAvailability();
+    this.createdAt = LocalDateTime.now();
+    this.category = category;
+    this.status = Status.ON;
+}
 
-    public ValidText getDescription() {
-        return description;
-    }
+public void setName(ValidText name) {
+    this.name = name;
+}
 
-    public Category getCategory() {
-        return category;
-    }
+public UUID getId() {
+    return id;
+}
 
-    public List<Model> getModels() {
-        return models;
-    }
+public ValidText getName() {
+    return name;
+}
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
+public ValidText getDescription() {
+    return description;
+}
 
-    public Quantity getTotalQuantity() {
-        return totalQuantity;
-    }
+public Category getCategory() {
+    return category;
+}
 
-    public AvailabilityStatus getAvailability() {
-        return availability;
-    }
+public List<Model> getModels() {
+    return models;
+}
 
-    public Integer getTimesViewed() {
-        return timesViewed;
-    }
-
-    public Integer getTimesPurchased() {
-        return timesPurchased;
-    }
 }

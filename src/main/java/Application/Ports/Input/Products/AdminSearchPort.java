@@ -1,6 +1,6 @@
 package Application.Ports.Input.Products;
 
-import Application.DTO.Products.DTOSearchProduct;
+import Application.DTOs.Products.DTOSearchProduct;
 import Domain.Entities.Products.Product;
 
 import java.util.List;

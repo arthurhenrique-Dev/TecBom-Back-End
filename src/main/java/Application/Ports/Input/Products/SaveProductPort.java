@@ -1,6 +1,6 @@
 package Application.Ports.Input.Products;
 
-import Application.DTO.Products.DTOSaveProduct;
+import Application.DTOs.Products.DTOSaveProduct;
 
 public interface SaveProductPort {
 

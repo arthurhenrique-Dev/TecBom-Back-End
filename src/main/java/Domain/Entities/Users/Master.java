@@ -9,7 +9,7 @@ public class Master {
     private Password password;
     private Email email;
     private PhoneNumber phoneNumber;
-    private Roles role;
+    private Role role;
 
     public Master(Cpf cpf, Name name, Password password, Email email, PhoneNumber phoneNumber) {
         this.cpf = cpf;
@@ -17,7 +17,7 @@ public class Master {
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.role = Roles.MASTER;
+        this.role = Role.MASTER;
     }
 
 

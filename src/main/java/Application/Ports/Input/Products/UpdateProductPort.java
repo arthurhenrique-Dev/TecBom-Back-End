@@ -1,6 +1,6 @@
 package Application.Ports.Input.Products;
 
-import Application.DTO.Products.DTOUpdateProduct;
+import Application.DTOs.Products.DTOUpdateProduct;
 
 public interface UpdateProductPort {
 

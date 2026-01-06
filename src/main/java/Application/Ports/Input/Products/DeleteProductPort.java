@@ -1,5 +1,9 @@
 package Application.Ports.Input.Products;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface DeleteProductPort {
-    void deleteProductPort(Long id);
+
+    void deleteList(List<UUID> ids);
 }

@@ -1,8 +1,6 @@
 package Domain.Entities.Products;
 
-import Domain.ValueObjects.Price;
-import Domain.ValueObjects.Quantity;
-import Domain.ValueObjects.ValidText;
+import Domain.ValueObjects.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,12 +10,12 @@ public class Model {
     private ValidText name;
     private Price pricePerUnity;
     private Quantity quantity;
-    private List<String> photos;
+    private Photos photos;
     private AvailabilityStatus availability;
     private Integer timesViewed;
     private Integer timesPurchased;
-    private Integer timesViewedInMonth;
-    private Integer timesPurchasedInMonth;
+    private TimesInMonth timesViewedInMonth;
+    private TimesInMonth timesPurchasedInMonth;
     private BigDecimal discountPercentage;
 
     private AvailabilityStatus checkAvailability() {
@@ -29,7 +27,21 @@ public class Model {
         else return pricePerUnity;
     }
 
-    public Model(ValidText name, Price pricePerUnity, Quantity quantity, List<String> photos, BigDecimal discountPercentage) {
+    public void UpdateModel(ValidText modelName, Price price, Quantity quantity, Photos photos, BigDecimal discountPercentage){
+        if (modelName != null || modelName.text().trim().isEmpty()) this.name = modelName;
+        if (price != null && price.price().doubleValue() > 0) this.pricePerUnity = price;
+        if (quantity != null && quantity.quantity() >= 0){
+            this.quantity = quantity;
+            this.checkAvailability();
+        }
+        if (photos != null && !photos.photos().isEmpty()) this.photos = photos;
+        if (discountPercentage != null){
+            this.pricePerUnity.discount(discountPercentage);
+            this.discountPercentage = discountPercentage;
+        }
+    }
+
+    public Model(ValidText name, Price pricePerUnity, Quantity quantity, Photos photos, BigDecimal discountPercentage) {
         this.name = name;
         this.pricePerUnity = checkDiscount(discountPercentage, pricePerUnity);
         this.quantity = quantity;
@@ -37,22 +49,15 @@ public class Model {
         this.availability = checkAvailability();
         this.timesViewed = 0;
         this.timesPurchased = 0;
+        this.discountPercentage = discountPercentage;
     }
 
-    public List<String> getPhotos() {
+    public Photos getPhotos() {
         return photos;
-    }
-
-    public void setPhotos(List<String> photos) {
-        this.photos = photos;
     }
 
     public ValidText getName() {
         return name;
-    }
-
-    public void setName(ValidText name) {
-        this.name = name;
     }
 
     public Price getPrice() {
@@ -65,10 +70,6 @@ public class Model {
 
     public Quantity getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(Quantity quantity) {
-        this.quantity = quantity;
     }
 
     public AvailabilityStatus getAvailability() {
@@ -84,34 +85,26 @@ public class Model {
     }
 
     public void incrementTimesViewed() {
+        this.timesViewedInMonth.repeat();
         this.timesViewed++;
     }
 
     public void incrementTimesPurchased() {
+        this.timesPurchasedInMonth.repeat();
         this.timesPurchased++;
     }
 
-    public Integer getTimesViewedInMonth() {
+    public TimesInMonth getTimesViewedInMonth() {
+        this.timesViewedInMonth.stats();
         return timesViewedInMonth;
     }
 
-    public void incrementTimesViewedInMonth() {
-        this.timesViewedInMonth++;
-    }
-
-    public Integer getTimesPurchasedInMonth() {
+    public TimesInMonth getTimesPurchasedInMonth() {
         return timesPurchasedInMonth;
-    }
-
-    public void incrementTimesPurchasedInMonth() {
-        this.timesPurchasedInMonth++;
     }
 
     public BigDecimal getDiscountPercentage() {
         return discountPercentage;
     }
 
-    public void setDiscountPercentage(BigDecimal discountPercentage) {
-        this.discountPercentage = discountPercentage;
-    }
 }
