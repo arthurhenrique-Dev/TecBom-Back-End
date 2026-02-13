@@ -28,18 +28,21 @@ public class UserMapper {
         return dtoReturnUser;
     }
 
-    public User registerUser(DTOSaveUser dtoSaveUser) {
-        DTOReturnCepService dtoReturnCepService = service.getAddressByCep(dtoSaveUser.address().cep());
+    public Address addressByService(DTOSaveAddress dtoSaveAddress) {
+        DTOReturnCepService dtoReturnCepService = service.getAddressByCep(dtoSaveAddress.cep());
         Address address = new Address(
-                dtoSaveUser.address().cep(),
+                dtoSaveAddress.cep(),
                 dtoReturnCepService.rua(),
                 dtoReturnCepService.bairro(),
                 dtoReturnCepService.cidade(),
                 dtoReturnCepService.estado(),
-                dtoSaveUser.address().complemento(),
-                dtoSaveUser.address().numero()
+                dtoSaveAddress.complemento(),
+                dtoSaveAddress.numero()
         );
-
+        return address;
+    }
+    public User registerUser(DTOSaveUser dtoSaveUser) {
+        Address address = addressByService(dtoSaveUser.address());
         User user = new User(
                 dtoSaveUser.cpf(),
                 dtoSaveUser.name(),

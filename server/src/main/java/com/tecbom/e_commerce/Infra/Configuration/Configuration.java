@@ -114,8 +114,8 @@ public class Configuration {
         return new UpdatePasswordUserUseCase(userRepository, emailService);
     }
     @Bean
-    UpdateUserUseCase updateUserUseCase(UserRepository userRepository) {
-        return new UpdateUserUseCase(userRepository);
+    UpdateUserUseCase updateUserUseCase(UserRepository userRepository, UserMapper userMapper) {
+        return new UpdateUserUseCase(userRepository, userMapper);
     }
     @Bean
     AdminSearchUseCase adminSearchUseCase(ProductRepository productRepository, ProductMapper productMapper) {

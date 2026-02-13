@@ -12,14 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartTest {
 
     private Cart cart;
-    private CartItem simpleItem, bulkItem, expensiveItem;
+    private CartItem simpleItem, bulkItem;
 
     @BeforeEach
     void setUp() {
         cart = new ReferenceObject().fullCart();
         simpleItem = new ReferenceObject().simpleItem();
         bulkItem = new ReferenceObject().bulkItem();
-        expensiveItem = new ReferenceObject().expensiveItem();
     }
 
     @Test

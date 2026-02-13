@@ -10,6 +10,6 @@ public record DTOUpdateUser(
         Cpf cpf,
         EmailVO email,
         PhoneNumber phoneNumber,
-        Address address
+        DTOSaveAddress address
 ) {
 }

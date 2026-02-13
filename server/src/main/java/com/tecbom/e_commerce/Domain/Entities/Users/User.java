@@ -55,6 +55,10 @@ public class User {
         } else throw new ValidationFailedException("Não é possível alterar a senha no momento");
     }
 
+    public void ClearPasswordUpdater() {
+        this.passwordUpdater = null;
+    }
+
     public void ValidateEmail(String token) {
         this.emailValidation = this.emailValidation.Validate(token);
         this.status = Status.ON;

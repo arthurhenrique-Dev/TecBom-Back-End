@@ -21,8 +21,4 @@ public record PasswordUpdater(
             return true;
         } else throw new ValidationFailedException();
     }
-
-    public PasswordUpdater Stop() {
-        return new PasswordUpdater(null, null);
-    }
 }

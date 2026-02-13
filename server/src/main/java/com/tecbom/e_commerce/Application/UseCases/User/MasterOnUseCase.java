@@ -4,6 +4,7 @@ import com.tecbom.e_commerce.Application.Ports.Input.User.MasterOnUseCasePort;
 import com.tecbom.e_commerce.Application.Ports.Output.MasterRepository;
 import com.tecbom.e_commerce.Domain.Entities.Users.Master;
 import com.tecbom.e_commerce.Domain.Exceptions.Exceptions.InvalidDataException;
+import com.tecbom.e_commerce.Domain.Exceptions.Exceptions.UserNotFoundException;
 import com.tecbom.e_commerce.Domain.ValueObjects.Cpf;
 
 public class MasterOnUseCase implements MasterOnUseCasePort {
@@ -17,7 +18,7 @@ public class MasterOnUseCase implements MasterOnUseCasePort {
     @Override
     public void masterOn(Cpf cpf) {
         Master master = repository.findMasterByCpf(cpf)
-                .orElseThrow(() -> new InvalidDataException("Mestre não encontrado"));
+                .orElseThrow(() -> new UserNotFoundException());
         master.masterOn();
         repository.saveMaster(master);
     }

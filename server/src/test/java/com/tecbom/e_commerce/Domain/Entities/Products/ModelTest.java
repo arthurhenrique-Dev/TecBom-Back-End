@@ -32,6 +32,8 @@ class ModelTest {
 
         model.UpdateModel(newName, newPrice, newQuantity, newPhotos, newDiscount);
 
+        System.out.println(model.getPrice().price());
+
         assertEquals(newName, model.getName());
         assertEquals(newPrice.discount(newDiscount), model.getPrice());
         assertEquals(newQuantity, model.getQuantity());
@@ -42,7 +44,7 @@ class ModelTest {
     @DisplayName("Atualizar o modelo com alguns atributos")
     void updateModelWithSomeAtributes() {
         ValidText newName = new ValidText("Smartphone Y");
-        Price newPrice = new Price(new BigDecimal(899.99));
+        Price newPrice = new Price(new BigDecimal(899.09));
         Quantity oldQuantity = model.getQuantity();
         Photos oldPhotos = model.getPhotos();
 

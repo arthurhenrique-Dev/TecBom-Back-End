@@ -31,7 +31,7 @@ public class Model {
         if (modelName != null && !modelName.text().trim().isEmpty()) this.name = modelName;
         if (discountPercentage != null) {
             this.discountPercentage = discountPercentage;
-            this.pricePerUnity = checkDiscount(discountPercentage, pricePerUnity);
+            if (price != null) this.pricePerUnity = checkDiscount(discountPercentage, price);
         } else {
             if (price != null && price.price().doubleValue() > 0) this.pricePerUnity = checkDiscount(this.discountPercentage, price);
         }
@@ -46,7 +46,7 @@ public class Model {
     public void PurchaseModel(Integer quantityPurchased) {
         this.availability = checkAvailability();
         if (this.availability == AvailabilityStatus.IN_STOCK) {
-        if (quantityPurchased != null && quantityPurchased > 0 && quantityPurchased <= this.quantity.quantity()) {
+            if (quantityPurchased != null && quantityPurchased > 0 && quantityPurchased <= this.quantity.quantity()) {
                 for (int i = 0; i < quantityPurchased; i++) {
                     this.timesPurchasedInMonth.repeat();
                 }

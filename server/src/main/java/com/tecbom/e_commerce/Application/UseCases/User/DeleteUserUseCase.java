@@ -14,7 +14,7 @@ public class DeleteUserUseCase implements DeleteUserPort {
     private final UserRepository repository;
 
     public DeleteUserUseCase(UserRepository repository) {
-        this.repository = DeleteUserUseCase.this.repository;
+        this.repository = repository;
     }
 
     @Override
