@@ -10,7 +10,7 @@
 ![JaCoCo](https://img.shields.io/badge/Coverage-67%25-yellow?style=for-the-badge)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger)
 
-O **TecBom** é uma API robusta de e-commerce desenvolvida com foco em padrões de excelência de engenharia de software. O projeto foi estruturado para ser escalável, utilizando princípios de **Arquitetura Limpa**, **Hexagonal** e **DDD (Domain-Driven Design)**.
+O **TecBom** é uma API RESTful robusta de e-commerce desenvolvida com foco em padrões de excelência de engenharia de software. O projeto foi estruturado para ser escalável, utilizando princípios de **Arquitetura Limpa**, **Hexagonal** e **DDD (Domain-Driven Design)**.
 
 ---
 
